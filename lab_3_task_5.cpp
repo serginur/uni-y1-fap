@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 void wrong_coordinate(const std::string& token) {
     std::cout << "Неверный ввод координаты: " << token << '\n';
@@ -22,7 +23,10 @@ struct Point {
 
     Point(double new_x, double new_y) {
         x = new_x; y = new_y;
-        std::cout << "Point (" << x << ", " << y << ") added;\n";
+    }
+
+    bool operator==(const Point& compared) const {
+        return this->x == compared.x && this->y == compared.y;
     }
 };
 
@@ -30,10 +34,11 @@ struct Side {
     double length;
 
     Side(Point a, Point b) {
-        std::cout << "Side with (" << a.x << ", " << a.y;
-        std::cout << ") and (" << b.x << ", " << b.y << ")";
         length = std::sqrt(pow(b.x - a.x, 2.0) + pow(b.y - a.y, 2.0));
-        std::cout << " with length = " << length << " added;\n";
+    }
+
+    bool operator==(const Side& compared) const {
+        return length == compared.length;
     }
 };
 
@@ -41,7 +46,7 @@ int main() {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
-        
+
         std::cout << "Введите x1, y1, x2, y2, x3, y3, x4 и y4 через пробел:\n";
         std::string input;
         std::getline(std::cin, input);
@@ -97,37 +102,41 @@ int main() {
 
     std::vector<Point> points;
     for (size_t i = 0; i < tokens.size() - 1; i += 2) {
-        points.emplace_back(Point(stod(tokens.at(i)), stod(tokens.at(i+1))));
+        Point p = Point(stod(tokens.at(i)), stod(tokens.at(i+1)));
+        if (std::find(points.begin(), points.end(), p) != points.end()) {
+            std::cout << "Координаты введеных точек повторяются!\n";
+            return 0;
+        }
+        points.push_back(p);
     }
 
     std::vector<Side> sides;
-    std::vector<std::vector<uint8_t>> pairs = {{0,1}, {1,2}, {2,3}, {3,0}};
-    for (const std::vector<uint8_t>& pair : pairs) {
-        sides.emplace_back(Side(points[pair[0]], points[pair[1]]));
-    }
-
-
-    //TODO: Перепроверить алгоритм проверки равности сторон
-    
-    int equal_sides = 0;
-    for (uint8_t i = 0; i < sides.size(); i++) {
-        for (uint8_t j = 0; j < sides.size(); j++) {
-            if (j == i) continue;
-            if (sides.at(j).length == sides.at(j).length) equal_sides++;
-        }
-        if (i == 0 && equal_sides == 3) break;
-        if (equal_sides != 4) {
-            std::cout << "Введены координаты НЕ прямоугольника, равных сторон " << equal_sides << '\n';
-            return 0; 
+    std::vector<std::vector<uint8_t>> index_pairs = {{0,1}, {1,2}, {2,3}, {3,0}};
+    for (const std::vector<uint8_t>& pair : index_pairs) {
+        Side s = Side(points[pair[0]], points[pair[1]]);
+        if (std::find(sides.begin(), sides.end(), s) == sides.end()) {
+            sides.push_back(s);
         }
     }
 
-    // std::cout << std::string(37, '_') << "POINTS" << std::string(37, '_') << "\n";
-    // for (const Point& point : points) {
-    //     std::cout << point.x;
-    //     std::cout << "\t|\t";
-    //     std::cout << point.y;
-    //     std::cout << '\n';
-    // }
+    if (sides.size() != 1 && sides.size() != 2) {
+        std::cout << "Введены координаты не прямоугольника; " \
+            << "количество равных сторон - " << 4 - sides.size() << '\n';
+        return 0;
+    }
+
+    double rect_area;
+    switch (sides.size()) {
+    case 1:
+        rect_area = pow(sides.at(0).length, 2.0);
+        break;
+    case 2:
+        rect_area = sides.at(0).length * sides.at(1).length;
+        break;
+    default:
+        break;
+    }
+
+    std::cout << "Площадь прямоугольника равна " << rect_area << ".\n";
     return 0;
 }
