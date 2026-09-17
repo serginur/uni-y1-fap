@@ -1,5 +1,5 @@
 #include <iostream>
-#include "input_coords.h"
+#include "input.h"
 #include <vector>
 
 void answer(const uint8_t& is_it) {

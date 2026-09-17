@@ -2,7 +2,7 @@
 // заданы координаты его вершин (x1, y1), (х2, y2), (x3, y3), (x4, y4)
 
 #include <iostream>
-#include "input_coords.h"
+#include "input.h"
 #include <algorithm>
 
 struct Side {
