@@ -2,9 +2,7 @@
 // заданы координаты его вершин (x1, y1), (х2, y2), (x3, y3), (x4, y4)
 
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <vector>
+#include <input_coords.h>
 #include <algorithm>
 
 void wrong_coordinate(const std::string& token) {
@@ -43,63 +41,8 @@ struct Side {
 };
 
 int main() {
-    std::vector<std::string> tokens;
-    bool input_check = false;
-    while (not input_check) {
-
-        std::cout << "Введите x1, y1, x2, y2, x3, y3, x4 и y4 через пробел:\n";
-        std::string input;
-        std::getline(std::cin, input);
-        
-        std::string token;
-        std::istringstream input_stream(input);
-        while (input_stream >> token) {
-            tokens.push_back(token);
-        }
-
-        if (tokens.size() != 8) {
-            std::cout << "Введено неверное количество координат: "\
-             << tokens.size() << '\n';
-            clear_input(tokens, input_stream);
-            continue;
-        }
-
-        for (std::string& t : tokens) {
-            bool is_negative = false;
-            int point_pos = -1;
-            for (size_t i = 0; i < t.size(); i++) {
-                switch (t.at(i)) {
-                    case '-':
-                    if (i != 0 || is_negative) {
-                        wrong_coordinate(t);
-                        clear_input(tokens, input_stream);
-                        continue;
-                    } else {
-                        is_negative = true;
-                    }
-                    break;
-                    case ',' | '.':
-                    if (point_pos != -1) {
-                        wrong_coordinate(t);
-                        clear_input(tokens, input_stream);
-                        continue;
-                    } else {
-                        point_pos = i;
-                    }
-                    break;
-                    default:
-                    if (t.at(i) < '0' || t.at(i) > '9') {
-                        wrong_coordinate(t);
-                        clear_input(tokens, input_stream);
-                        continue;
-                    }
-                    break;
-                }
-            }
-        }
-        input_check = true;
-    }
-
+    std::vector<std::string> tokens = input_coordinates("Введите x1, y1, x2, y2, x3, y3, x4 и y4 через пробел:\n", 8);
+    
     std::vector<Point> points;
     for (size_t i = 0; i < tokens.size() - 1; i += 2) {
         Point p = Point(stod(tokens.at(i)), stod(tokens.at(i+1)));
