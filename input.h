@@ -45,7 +45,7 @@ std::vector<std::string> input_coordinates(const std::string& input_prompt, size
 
         if (tokens.size() != num_of_tokens) {
             std::cout << "Введено неверное количество координат: "\
-             << tokens.size() << '\n';
+                        << tokens.size() << '\n';
             continue;
         }
 
@@ -95,13 +95,27 @@ std::vector<std::string> input_coordinates(const std::string& input_prompt, size
     return tokens;
 }
 
-std::vector<std::string> input_symbol(const std::string& input_prompt, const std::string& allowed_chars) {
+char input_symbol(const std::string& input_prompt) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
+        std::cout << input_prompt;
+        std::cout << std::endl;
+        input_tokens(&tokens);
+
+        if (tokens.size() > 1) {
+            std::cout << "Введено неверное количество символов: "\
+                        << tokens.size() << '\n';
+            continue;
+        }
+
+        if (tokens.at(0).size() > 1) {
+            std::cout << "Введено больше одного символа!" << '\n';
+            continue;
+        }
 
         input_check = true;
     }
 
-    return tokens;
+    return tokens.at(0).at(0);
 }
