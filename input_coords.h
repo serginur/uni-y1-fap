@@ -9,6 +9,9 @@ struct Point {
     Point(double new_x, double new_y) {
         x = new_x; y = new_y;
     }
+    Point(const std::string& new_x, const std::string& new_y) {
+        x = std::stod(new_x); y = std::stod(new_y);
+    }
 
     bool operator==(const Point& compared) const {
         return this->x == compared.x && this->y == compared.y;
@@ -26,7 +29,7 @@ void clear_input(std::vector<T>& vec, std::istringstream& iss) {
     iss.str("");
 }
 
-std::vector<std::string> input_coordinates(const std::string& input_prompt, size_t num_of_tokens) {
+std::vector<std::string>& input_coordinates(const std::string& input_prompt, size_t num_of_tokens) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {

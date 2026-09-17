@@ -1,21 +1,12 @@
 #include <iostream>
+#include "input_coords.h"
 #include <vector>
 
-struct Point {
-    double x, y;
-
-    Point(double new_x, double new_y) {
-        x = new_x; y = new_y;
-    }
-
-    bool operator==(const Point& compared) const {
-        return this->x == compared.x && this->y == compared.y;
-    }
-};
-
 int main() {
-    double x, y;
+    std::vector<std::string> tokens = input_coordinates("Введите координаты точки x и y:\n", 2);
+    Point point(tokens.at(0), tokens.at(1));
 
+    
 
     return 0;
 }

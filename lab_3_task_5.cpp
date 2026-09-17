@@ -22,7 +22,7 @@ int main() {
     
     std::vector<Point> points;
     for (size_t i = 0; i < tokens.size() - 1; i += 2) {
-        Point p = Point(stod(tokens.at(i)), stod(tokens.at(i+1)));
+        Point p = Point(tokens.at(i), tokens.at(i+1));
         if (std::find(points.begin(), points.end(), p) != points.end()) {
             std::cout << "Координаты введеных точек повторяются!\n";
             return 0;
