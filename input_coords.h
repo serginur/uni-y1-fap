@@ -29,7 +29,7 @@ void clear_input(std::vector<T>& vec, std::istringstream& iss) {
     iss.str("");
 }
 
-std::vector<std::string>& input_coordinates(const std::string& input_prompt, size_t num_of_tokens) {
+std::vector<std::string> input_coordinates(const std::string& input_prompt, size_t num_of_tokens) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
