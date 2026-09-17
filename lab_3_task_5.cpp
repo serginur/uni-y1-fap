@@ -2,31 +2,8 @@
 // заданы координаты его вершин (x1, y1), (х2, y2), (x3, y3), (x4, y4)
 
 #include <iostream>
-#include <input_coords.h>
+#include "input_coords.h"
 #include <algorithm>
-
-void wrong_coordinate(const std::string& token) {
-    std::cout << "Неверный ввод координаты: " << token << '\n';
-}
-
-template<typename T>
-void clear_input(std::vector<T>& vec, std::istringstream& iss) {
-    vec.clear();
-    iss.clear();
-    iss.str("");
-}
-
-struct Point {
-    double x, y;
-
-    Point(double new_x, double new_y) {
-        x = new_x; y = new_y;
-    }
-
-    bool operator==(const Point& compared) const {
-        return this->x == compared.x && this->y == compared.y;
-    }
-};
 
 struct Side {
     double length;
@@ -63,8 +40,7 @@ int main() {
     }
 
     if (sides.size() != 1 && sides.size() != 2) {
-        std::cout << "Введены координаты не прямоугольника; " \
-            << "количество равных сторон - " << 4 - sides.size() << '\n';
+        std::cout << "Введены координаты не прямоугольника!\n";
         return 0;
     }
 
