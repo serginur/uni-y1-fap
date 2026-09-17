@@ -12,7 +12,7 @@ int main() {
     double x = std::stod(tokens.at(0));
     double y = std::stod(tokens.at(1));
 
-    if ((x >= 0 && y >= 0) && (pow(x, 2.0) + pow(y, 2.0) <= 9)) {
+    if ((x >= 0 && (y >= 0 || y <= 0)) && (pow(x, 2.0) + pow(y, 2.0) <= 9)) {
         answer(1);
     } else if ((x < 0 && y > 0) && (-x - y <= 0) && (y <= 3)) {
         answer(1);
