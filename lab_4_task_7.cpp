@@ -12,18 +12,15 @@ int main() {
     double x = std::stod(tokens.at(0));
     double y = std::stod(tokens.at(1));
 
-    if (pow(x, 2.0) + pow(y, 2.0) < 4) {
-        answer(0);
-    } else if (pow(x, 2.0) + pow(y, 2.0) == 4) {
+    if ((x >= 0 && y >= 0) && (pow(x, 2.0) + pow(y, 2.0) <= 9)) {
         answer(1);
-    } else if ((x >= 0 && y >= 0) && (x <= 4 && y <= 4)) {
+    } else if ((x < 0 && y > 0) && (-x - y <= 0) && (y <= 3)) {
         answer(1);
-    } else if ((x <= 0 && y <= 0) && (-x - y <= 16)) {
-        answer(1);
-    } else if (((x < 0 && y > 0) || (x > 0 && y < 0)) && (pow(x, 2.0) + pow(y, 2.0) <= 16)) {
+    } else if ((x < 0 && y < 0) && (x - y >= 0) && (y >= -3)) {
         answer(1);
     } else {
         answer(0);
     }
+
     return 0;
 }
