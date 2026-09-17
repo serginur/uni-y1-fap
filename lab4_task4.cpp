@@ -8,7 +8,7 @@ void answer(const uint8_t& is_it) {
 }
 
 int main() {
-    std::vector<std::string> tokens = input_coordinates("Введите координаты точки x и y: ", 2);
+    std::vector<std::string> tokens = input_numbers("Введите координаты точки x и y: ", 2);
     double x = std::stod(tokens.at(0));
     double y = std::stod(tokens.at(1));
 

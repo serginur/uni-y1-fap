@@ -18,7 +18,7 @@ struct Side {
 };
 
 int main() {
-    std::vector<std::string> tokens = input_coordinates("Введите x1, y1, x2, y2, x3, y3, x4 и y4 через пробел:\n", 8);
+    std::vector<std::string> tokens = input_numbers("Введите x1, y1, x2, y2, x3, y3, x4 и y4 через пробел:\n", 8);
     
     std::vector<Point> points;
     for (size_t i = 0; i < tokens.size() - 1; i += 2) {

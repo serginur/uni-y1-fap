@@ -18,8 +18,8 @@ struct Point {
     }
 };
 
-void wrong_coordinate(const std::string& token) {
-    std::cout << "Неверный ввод координаты: " << token << '\n';
+void wrong_input(const std::string& token) {
+    std::cout << "Неверный ввод: " << token << '\n';
 }
 
 void input_tokens(std::vector<std::string> *tokens) {
@@ -35,7 +35,7 @@ void input_tokens(std::vector<std::string> *tokens) {
     input_stream.str("");
 }
 
-std::vector<std::string> input_coordinates(const std::string& input_prompt, size_t num_of_tokens) {
+std::vector<std::string> input_numbers(const std::string& input_prompt, size_t num_of_tokens) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
@@ -44,7 +44,7 @@ std::vector<std::string> input_coordinates(const std::string& input_prompt, size
         input_tokens(&tokens);
 
         if (tokens.size() != num_of_tokens) {
-            std::cout << "Введено неверное количество координат: "\
+            std::cout << "Введено неверное количество переменных: "\
                         << tokens.size() << '\n';
             continue;
         }
@@ -79,7 +79,7 @@ std::vector<std::string> input_coordinates(const std::string& input_prompt, size
                         break;
                 }
                 if (is_wrong) {
-                    wrong_coordinate(t);
+                    wrong_input(t);
                     break;
                 }
             }
@@ -100,8 +100,8 @@ char input_symbol(const std::string& input_prompt) {
     bool input_check = false;
     while (not input_check) {
         std::cout << input_prompt;
-        std::cout << std::endl;
         input_tokens(&tokens);
+        std::cout << std::endl;
 
         if (tokens.size() > 1) {
             std::cout << "Введено неверное количество символов: "\
