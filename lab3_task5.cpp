@@ -39,7 +39,7 @@ int main() {
         }
     }
 
-    double rect_area;
+    double rect_area = 0;
     bool wrong_coords = false;
     switch (sides.size()) {
     case 1:
