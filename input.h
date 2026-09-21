@@ -96,6 +96,66 @@ inline std::vector<std::string> input_numbers(const std::string& input_prompt, c
     return tokens;
 }
 
+inline std::vector<std::string> input_natural_numbers(const std::string& input_prompt, const size_t num_of_tokens, const bool is_positive) {
+    std::vector<std::string> tokens;
+    bool input_check = false;
+    while (not input_check) {
+        if (not tokens.empty()) {tokens.clear();}
+        std::cout << input_prompt;
+        input_tokens(&tokens);
+
+        if (tokens.size() != num_of_tokens) {
+            std::cout << "Введено неверное количество переменных: "\
+                        << tokens.size() << '\n';
+            continue;
+        }
+
+        bool is_wrong = false;
+        for (std::string& t : tokens) {
+            bool is_negative = false;
+            for (size_t i = 0; i < t.size(); i++) {
+                switch (t.at(i)) {
+                    case '-':
+                        if (not is_positive) {
+                            if (i != 0 || is_negative) {
+                                is_wrong = true;
+                                break;
+                            } else {
+                                is_negative = true;
+                            }
+                        } else {
+                            is_wrong = true;
+                            break;
+                        }
+                        break;
+                    case ',' | '.':
+                        is_wrong = true;
+                        break;
+                    default:
+                        if (t.at(i) < '0' || t.at(i) > '9') {
+                            is_wrong = true;
+                            break;
+                        }
+                        break;
+                }
+                if (is_wrong) {
+                    wrong_input(t);
+                    break;
+                }
+            }
+            if (is_wrong) {
+                break;
+            }
+        }
+        if (is_wrong) {
+            continue;
+        }
+        input_check = true;
+    }
+    return tokens;
+}
+
+
 inline char input_symbol(const std::string& input_prompt) {
     std::vector<std::string> tokens;
     bool input_check = false;
