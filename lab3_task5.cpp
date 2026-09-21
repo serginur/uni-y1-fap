@@ -31,7 +31,7 @@ int main() {
     }
 
     std::vector<Side> sides;
-    std::vector<std::vector<uint8_t>> index_pairs = {{0,1}, {1,2}, {2,3}, {3,0}};
+    std::vector<std::vector<uint8_t>> const index_pairs = {{0,1}, {1,2}, {2,3}, {3,0}};
     for (const std::vector<uint8_t>& pair : index_pairs) {
         Side s = Side(points[pair[0]], points[pair[1]]);
         if (std::find(sides.begin(), sides.end(), s) == sides.end()) {
@@ -39,12 +39,8 @@ int main() {
         }
     }
 
-    if (sides.size() != 1 && sides.size() != 2) {
-        std::cout << "Введены координаты не прямоугольника!\n";
-        return 0;
-    }
-
     double rect_area;
+    bool wrong_coords = false;
     switch (sides.size()) {
     case 1:
         rect_area = pow(sides.at(0).length, 2.0);
@@ -53,9 +49,13 @@ int main() {
         rect_area = sides.at(0).length * sides.at(1).length;
         break;
     default:
+        std::cout << "Введены координаты не прямоугольника!\n";
+        wrong_coords = true;
         break;
     }
 
-    std::cout << "Площадь прямоугольника равна " << rect_area << ".\n";
+    if (not wrong_coords) {
+        std::cout << "Площадь прямоугольника равна " << rect_area << ".\n";
+    }
     return 0;
 }

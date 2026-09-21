@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -6,7 +7,7 @@
 struct Point {
     double x, y;
 
-    Point(double new_x, double new_y) {
+    Point(const double new_x, const double new_y) {
         x = new_x; y = new_y;
     }
     Point(const std::string& new_x, const std::string& new_y) {
@@ -18,11 +19,11 @@ struct Point {
     }
 };
 
-void wrong_input(const std::string& token) {
+inline void wrong_input(const std::string& token) {
     std::cout << "Неверный ввод: " << token << '\n';
 }
 
-void input_tokens(std::vector<std::string> *tokens) {
+inline void input_tokens(std::vector<std::string> *tokens) {
     std::string input;
     std::getline(std::cin, input);
     
@@ -35,11 +36,11 @@ void input_tokens(std::vector<std::string> *tokens) {
     input_stream.str("");
 }
 
-std::vector<std::string> input_numbers(const std::string& input_prompt, size_t num_of_tokens) {
+inline std::vector<std::string> input_numbers(const std::string& input_prompt, const size_t num_of_tokens) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
-        if (tokens.size()) {tokens.clear();}
+        if (not tokens.empty()) {tokens.clear();}
         std::cout << input_prompt;
         input_tokens(&tokens);
 
@@ -52,7 +53,7 @@ std::vector<std::string> input_numbers(const std::string& input_prompt, size_t n
         bool is_wrong = false;
         for (std::string& t : tokens) {
             bool is_negative = false;
-            int8_t point_pos = -1;
+            bool is_float = false;
             for (size_t i = 0; i < t.size(); i++) {
                 switch (t.at(i)) {
                     case '-':
@@ -64,11 +65,11 @@ std::vector<std::string> input_numbers(const std::string& input_prompt, size_t n
                         }
                         break;
                     case ',' | '.':
-                        if (point_pos != -1) {
+                        if (is_float) {
                             is_wrong = true;
                             break;
                         } else {
-                            point_pos = i;
+                            is_float = true;
                         }
                         break;
                     default:
@@ -95,7 +96,7 @@ std::vector<std::string> input_numbers(const std::string& input_prompt, size_t n
     return tokens;
 }
 
-char input_symbol(const std::string& input_prompt) {
+inline char input_symbol(const std::string& input_prompt) {
     std::vector<std::string> tokens;
     bool input_check = false;
     while (not input_check) {
