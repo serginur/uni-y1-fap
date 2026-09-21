@@ -23,7 +23,7 @@ struct Time {
     Time(uint8_t new_h, uint8_t new_m, uint8_t new_s): 
         hours(new_h), minutes(new_m), seconds(new_s) {};
 
-    std::string get_time() {
+    std::string get_time() const {
         std::string h_str = std::to_string(hours);
         std::string m_str = std::to_string(minutes);
         std::string s_str = std::to_string(seconds);
@@ -50,7 +50,7 @@ struct Time {
         if (h > 23) {
             h -= 24;
         }
-        return Time(h, m, s);
+        return {h, m, s};
     }
 };
 
@@ -85,7 +85,7 @@ Time input_time() {
 
         bool is_correct = true;
         for (uint8_t i = 0; i < 3; i++) {
-            uint8_t temp = static_cast<uint8_t>(std::stoi(tokens.at(i)));
+            auto temp = static_cast<uint8_t>(std::stoi(tokens.at(i)));
             if (((i == 0) && temp > 23) || ((i > 0) && temp > 59)) {
                 is_correct = false;
                 break;
@@ -99,9 +99,9 @@ Time input_time() {
 
         input_check = true;
     }
-    return Time(static_cast<uint8_t>(stoi(tokens.at(0))),
-                static_cast<uint8_t>(stoi(tokens.at(1))),
-                static_cast<uint8_t>(stoi(tokens.at(2))));
+    return {static_cast<uint8_t>(stoi(tokens.at(0))),
+             static_cast<uint8_t>(stoi(tokens.at(1))),
+              static_cast<uint8_t>(stoi(tokens.at(2)))};
 }
 
 int main () {
