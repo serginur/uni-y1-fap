@@ -10,20 +10,28 @@
    |0|0|0|0|*/
 
 #include <iostream>
+#include <string>
 
 int main() {
    std::cout << "_____" << std::endl;
+   std::string output;
    for (int i = 1; i <= 4; ++i) {
-      for (int j = 0; j < 1; ++j) {
-         std::cout << "|";
+      for (int j = 0; j <= 1; ++j) {
+         output.append("|");
          for (int k = 0; k < 4; ++k) {
             if (k < i) {
-               std::cout << i << "|";
+               if (j == 0) {
+                  output.append(std::to_string(i));
+                  output.append("|");
+               } else {
+                  output.append("0|");
+               }
             } else {
-               std::cout << " |";
+               output.append(" |");
             }
          }
-         std::cout << std::endl;
+         std::cout << output << std::endl;
+         output.clear();
       }
    }
    std::cout << "–––––" << std::endl;
