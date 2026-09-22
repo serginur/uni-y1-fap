@@ -17,8 +17,13 @@ int main() {
       for (int j = 0; j < 1; ++j) {
          std::cout << "|";
          for (int k = 0; k < 4; ++k) {
-
+            if (k < i) {
+               std::cout << i << "|";
+            } else {
+               std::cout << " |";
+            }
          }
+         std::cout << std::endl;
       }
    }
    std::cout << "–––––" << std::endl;
