@@ -1,3 +1,5 @@
+// Определение принадлежности точки с координатами (x,y) заштрихованной области
+
 #include <iostream>
 #include "input.h"
 #include <vector>
