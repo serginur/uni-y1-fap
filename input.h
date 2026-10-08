@@ -60,17 +60,15 @@ inline std::vector<std::string> input_numbers(const std::string& input_prompt, c
                         if (i != 0 || is_negative) {
                             is_wrong = true;
                             break;
-                        } else {
-                            is_negative = true;
                         }
+                        is_negative = true;
                         break;
                     case ',' | '.':
                         if (is_float) {
                             is_wrong = true;
                             break;
-                        } else {
-                            is_float = true;
                         }
+                        is_float = true;
                         break;
                     default:
                         if (t.at(i) < '0' || t.at(i) > '9') {
@@ -120,9 +118,8 @@ inline std::vector<std::string> input_natural_numbers(const std::string& input_p
                             if (i != 0 || is_negative) {
                                 is_wrong = true;
                                 break;
-                            } else {
-                                is_negative = true;
                             }
+                            is_negative = true;
                         } else {
                             is_wrong = true;
                             break;
