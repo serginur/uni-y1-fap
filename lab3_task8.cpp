@@ -20,8 +20,8 @@ void clear_input(std::vector<T>& vec, std::istringstream& iss) {
 struct Time {
     uint8_t hours, minutes, seconds;
 
-    Time(uint8_t new_h, uint8_t new_m, uint8_t new_s): 
-        hours(new_h), minutes(new_m), seconds(new_s) {};
+    Time(const uint8_t& new_h, const uint8_t& new_m, const uint8_t& new_s):
+        hours(new_h), minutes(new_m), seconds(new_s) {}
 
     std::string get_time() const {
         std::string h_str = std::to_string(hours);
@@ -73,25 +73,29 @@ Time input_time() {
             continue;
         }
 
+        bool wrong_input = false;
         for (const std::string& t : tokens) {
             for (const char& c : t) {
                 if (not std::isdigit(c)) {
                     std::cout << "Введены неверные показания!\n";
                     clear_input(tokens, iss);
-                    continue;
+                    wrong_input = true;
+                    break;
                 }
             }
+            if (wrong_input) {break;}
         }
+        if (wrong_input) {continue;}
 
-        bool is_correct = true;
+        bool is_valid = true;
         for (uint8_t i = 0; i < 3; i++) {
-            auto temp = static_cast<uint8_t>(std::stoi(tokens.at(i)));
+            uint8_t temp = static_cast<uint8_t>(std::stoi(tokens.at(i)));
             if (((i == 0) && temp > 23) || ((i > 0) && temp > 59)) {
-                is_correct = false;
+                is_valid = false;
                 break;
             }
         }
-        if (not is_correct) {
+        if (not is_valid) {
             std::cout << "Введены неверные показания!\n";
             clear_input(tokens, iss);
             continue;
