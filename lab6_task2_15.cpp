@@ -3,7 +3,7 @@
     х вводится с клавиатуры, а f(x) = 3.9x^2 + cos(x) */
 
 #include "input.h"
-
+// TODO: шо у вас здесь происходит
 int main () {
     const double x = std::stod(input_numbers("Введите x: ", 1).at(0));
     const double f = 3.9*std::pow(x, 2.0f) + std::cos(x);

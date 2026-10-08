@@ -3,7 +3,7 @@
     f(x) = 1.9x^2 - 1.7/(x^2 - 9) + cos(x) */
 
 #include "input.h"
-
+// TODO: шо у вас здесь происходит
 int main() {
     std::vector<std::string> arguments = input_numbers("Введите x начальное, x конечное и dx: ", 3);
     double x1 = std::stod(arguments.at(0));

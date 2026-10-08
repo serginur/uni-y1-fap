@@ -18,9 +18,9 @@ void clear_input(std::vector<T>& vec, std::istringstream& iss) {
 }
 
 struct Time {
-    uint8_t hours, minutes, seconds;
+    uint16_t hours, minutes, seconds;
 
-    Time(const uint8_t& new_h, const uint8_t& new_m, const uint8_t& new_s):
+    Time(const uint16_t& new_h, const uint16_t& new_m, const uint16_t& new_s):
         hours(new_h), minutes(new_m), seconds(new_s) {}
 
     std::string get_time() const {
@@ -36,25 +36,27 @@ struct Time {
     }
 
     Time operator+(const Time& other) const {
-        uint8_t s = this->seconds + other.seconds;
-        uint8_t m = this->minutes + other.minutes;
-        uint8_t h = this->hours + other.hours;
+        uint16_t s = this->seconds + other.seconds;
+        uint16_t m = this->minutes + other.minutes;
+        uint16_t h = this->hours + other.hours;
         if (s > 59) {
-            s -= 60;
-            m++;
+            uint16_t minutes_passed = s/60;
+            s = s%60;
+            m += minutes_passed;
         }
         if (m > 59) {
-            m -= 60;
-            h++;
+            uint16_t hours_passed = m/60;
+            m = m%60;
+            h += hours_passed;
         }
         if (h > 23) {
-            h -= 24;
+            h = h%24;
         }
         return {h, m, s};
     }
 };
 
-Time input_time() {
+Time input_time(const bool& is_clock = true) {
     std::vector<std::string> tokens;
     
     bool input_check = false;
@@ -87,25 +89,27 @@ Time input_time() {
         }
         if (wrong_input) {continue;}
 
-        bool is_valid = true;
-        for (uint8_t i = 0; i < 3; i++) {
-            uint8_t temp = static_cast<uint8_t>(std::stoi(tokens.at(i)));
-            if (((i == 0) && temp > 23) || ((i > 0) && temp > 59)) {
-                is_valid = false;
-                break;
+        if (is_clock) {
+            bool is_valid = true;
+            for (uint8_t i = 0; i < 3; i++) {
+                uint16_t temp = static_cast<uint16_t>(std::stoi(tokens.at(i)));
+                if (((i == 0) && temp > 23) || ((i > 0) && temp > 59)) {
+                    is_valid = false;
+                    break;
+                }
             }
-        }
-        if (not is_valid) {
-            std::cout << "Введены неверные показания!\n";
-            clear_input(tokens, iss);
-            continue;
+            if (not is_valid) {
+                std::cout << "Введены неверные показания!\n";
+                clear_input(tokens, iss);
+                continue;
+            }
         }
 
         input_check = true;
     }
-    return {static_cast<uint8_t>(stoi(tokens.at(0))),
-             static_cast<uint8_t>(stoi(tokens.at(1))),
-              static_cast<uint8_t>(stoi(tokens.at(2)))};
+    return {static_cast<uint16_t>(stoi(tokens.at(0))),
+             static_cast<uint16_t>(stoi(tokens.at(1))),
+              static_cast<uint16_t>(stoi(tokens.at(2)))};
 }
 
 int main () {
@@ -116,7 +120,7 @@ int main () {
     std::cout << "Часы установлены на " << clock.get_time() << '\n';
     std::cout << "Введите прошедшее время (h m s):\n";
 
-    Time time_passed = input_time();
+    const Time time_passed = input_time(false);
 
     clock = clock + time_passed;
 

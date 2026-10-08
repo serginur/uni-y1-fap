@@ -13,7 +13,7 @@ int main() {
     std::vector<std::string> tokens = input_numbers("Введите координаты точки x и y: ", 2);
     double x = std::stod(tokens.at(0));
     double y = std::stod(tokens.at(1));
-
+// TODO: один общий иф
     if ((x >= 0 && (y >= 0 || y <= 0)) && (pow(x, 2.0) + pow(y, 2.0) <= 9)) {
         answer(1);
     } else if ((x < 0 && y > 0) && (-x - y <= 0) && (y <= 3)) {

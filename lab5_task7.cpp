@@ -32,7 +32,6 @@ int main() {
         break;
     default:
         to_print = "Введена буква не из предложенного набора!";
-        break;
     }
 
     std::cout << to_print << std::endl;
