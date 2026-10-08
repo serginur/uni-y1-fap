@@ -17,6 +17,10 @@ struct Point {
     bool operator==(const Point& compared) const {
         return this->x == compared.x && this->y == compared.y;
     }
+
+    bool operator!=(const Point& compared) const {
+        return this->x != compared.x || this->y != compared.y;
+    }
 };
 
 inline void wrong_input(const std::string& token) {
