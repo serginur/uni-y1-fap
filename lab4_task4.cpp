@@ -4,28 +4,17 @@
 #include "input.h"
 #include <vector>
 
-void answer(const uint8_t& is_it) {
-    std::string no = (is_it == 0) ? " не " : " ";
-    std::cout << "Данная точка" << no << "входит в заштрихованную область.\n";
-}
-
 int main() {
-    std::vector<std::string> tokens = input_numbers("Введите координаты точки x и y: ", 2);
-    double x = std::stod(tokens.at(0));
-    double y = std::stod(tokens.at(1));
+    while (true) {
+        std::vector<std::string> tokens = input_numbers("Введите координаты точки x и y: ", 2);
+        double x = std::stod(tokens.at(0));
+        double y = std::stod(tokens.at(1));
 
-    if (x*x + y*y < 4) { // TODO: один общий иф
-        answer(0);
-    } else if (x*x + y*y == 4) {
-        answer(1);
-    } else if ((x >= 0 && y >= 0) && (x <= 4 && y <= 4)) {
-        answer(1);
-    } else if ((x <= 0 && y <= 0) && (-x - y <= 16)) {
-        answer(1);
-    } else if (((x < 0 && y > 0) || (x > 0 && y < 0)) && (x*x + y*y <= 16)) {
-        answer(1);
-    } else {
-        answer(0);
+        if (x*x + y*y >= 4 && ((((x >= 0 && y <= 0) || (x <= 0 && y >= 0)) && x*x + y*y <= 16) || (x > 0 && y > 0 && x <= 16 && y <= 16) || (x < 0 && y < 0 && -x-y <= 4))) {
+            std::cout << "Данная точка входит в заштрихованную область.\n";
+        } else {
+            std::cout << "Данная точка не входит в заштрихованную область.\n";
+        }
     }
     return 0;
 }
