@@ -14,21 +14,19 @@ int main() {
         if (dx <= 0) {
             std::cout << "dx <= 0, а x1 < x2!" << std::endl;
             return 0;
-        } else {
-            if (x2-x1 / dx - round(x2-x1 / dx) > 0.000001) {
-                std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
-                return 0;
-            }
+        }
+        if (x2-x1 / dx - round(x2-x1 / dx) > 0.000001) {
+            std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
+            return 0;
         }
     } else if (x1 > x2) {
         if (dx >= 0) {
             std::cout << "dx >= 0, а x1 > 2!" << std::endl;
             return 0;
-        } else {
-            if (x1-x2 / dx - round((x1-x2) / dx) > 0.000001) {
-                std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
-                return 0;
-            }
+        }
+        if (x1-x2 / dx - round((x1-x2) / dx) > 0.000001) {
+            std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
+            return 0;
         }
     } else {
         if (dx != 0.0) {

@@ -33,27 +33,6 @@ struct Line {
     }
 };
 
-// struct Rectangle {
-//     std::vector<Line> lines;
-//     double area = 0.0;
-//
-//     Rectangle() {
-//         lines.emplace_back(Point{0, 0}, Point{0, 0});
-//     }
-//
-//     void add_line(const Line& new_line) {
-//         bool is_doubling = false;
-//         for (const Line& line : lines) {
-//             if (line.points[0] == new_line.points[0] && line.points[1] == new_line.points[1]) {
-//                 is_doubling = true;
-//             }
-//         }
-//         if (not is_doubling) {
-//             lines.emplace_back(new_line);
-//         }
-//     }
-// };
-
 int main() {
     const std::vector<std::string> tokens = input_numbers("Введите координаты точек (x, y) прямоугольника через пробел:\n", 8);
 
