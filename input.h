@@ -49,7 +49,7 @@ inline std::vector<std::string> input_numbers(const std::string& input_prompt, c
         input_tokens(&tokens);
 
         if (tokens.size() != num_of_tokens) {
-            std::cout << "Введено неверное количество переменных: "\
+            std::cout << "Введено неверное количество чисел: "\
                         << tokens.size() << '\n';
             continue;
         }
@@ -58,6 +58,7 @@ inline std::vector<std::string> input_numbers(const std::string& input_prompt, c
         for (std::string& t : tokens) {
             bool is_negative = false;
             bool is_float = false;
+            std::string integer;
             for (size_t i = 0; i < t.size(); i++) {
                 switch (t.at(i)) {
                     case '-':
@@ -79,12 +80,16 @@ inline std::vector<std::string> input_numbers(const std::string& input_prompt, c
                             is_wrong = true;
                             break;
                         }
+                        integer.push_back(t.at(i));
                         break;
                 }
                 if (is_wrong) {
                     wrong_input(t);
                     break;
                 }
+            }
+            if (integer.empty()) {
+                is_wrong = true;
             }
             if (is_wrong) {
                 break;
