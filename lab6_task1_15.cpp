@@ -3,7 +3,7 @@
     f(x) = 1.9x^2 - 1.7/(x^2 - 9) + cos(x) */
 
 #include "input.h"
-// TODO: шо у вас здесь происходит
+// TODO: закончить алгоритм ВАЩПЕШТА
 int main() {
     std::vector<std::string> arguments = input_numbers("Введите x начальное, x конечное и dx: ", 3);
     double x1 = std::stod(arguments.at(0));
@@ -16,7 +16,7 @@ int main() {
             return 0;
         }
         if (x2-x1 / dx - round(x2-x1 / dx) > 0.000001) {
-            std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
+            std::cout << "разница между x1 и x2 не делится нацело на dx!" << std::endl;
             return 0;
         }
     } else if (x1 > x2) {
@@ -25,7 +25,7 @@ int main() {
             return 0;
         }
         if (x1-x2 / dx - round((x1-x2) / dx) > 0.000001) {
-            std::cout << "Написать что-то УМНОЕ!!!" << std::endl;
+            std::cout << "разница между x1 и x2 не делится нацело на dx!" << std::endl;
             return 0;
         }
     } else {
