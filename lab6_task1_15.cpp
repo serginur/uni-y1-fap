@@ -5,8 +5,7 @@
 #include "input.h"
 #include <cmath>
 #include <iomanip>
-#include <string>
-// TODO: закончить алгоритм ВАЩПЕШТА
+
 int main() {
     std::vector<std::string> arguments = input_numbers("Введите x начальное, x конечное и dx: ", 3);
     double x1 = std::stod(arguments.at(0));
