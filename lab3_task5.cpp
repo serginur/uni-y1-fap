@@ -1,6 +1,6 @@
 /*  Программа для вычисления площади четырехугольника, если
     заданы координаты его вершин (x1, y1), (х2, y2), (x3, y3), (x4, y4) */
-//TODO: ЧЕТ НЕ РАБОТАЕТ ЗАДУМКО!!!
+
 #include <iostream>
 #include "input.h"
 #include <algorithm>
@@ -81,24 +81,26 @@ int main() {
     std::vector<Line> sides;
     for (const Point& start_point : points) {
         for (const Point& end_point : points) {
-            bool is_diagonal = false;
-            for (const Line & diagonal : diagonals) {
-                if (not diagonal.compare_points(start_point, end_point)) {
-                    is_diagonal = true;
-                    break;
-                }
-            }
-            if (not is_diagonal) {
-                bool is_doubling = false;
-                Line line = Line{start_point, end_point};
-                for (const Line & side : sides) {
-                    if (not side.compare_points(line) && side != line) {
-                        is_doubling = true;
+            if (start_point != end_point) {
+                bool is_diagonal = false;
+                for (const Line& diagonal : diagonals) {
+                    if (diagonal.compare_points(start_point, end_point)) {
+                        is_diagonal = true;
                         break;
                     }
                 }
-                if (not is_doubling) {
-                    sides.emplace_back(line);
+                if (not is_diagonal) {
+                    bool is_doubling = false;
+                    Line line = Line{start_point, end_point};
+                    for (const Line& side : sides) {
+                        if (side.compare_points(line) || side == line) {
+                            is_doubling = true;
+                            break;
+                        }
+                    }
+                    if (not is_doubling) {
+                        sides.emplace_back(line);
+                    }
                 }
             }
         }
@@ -111,76 +113,11 @@ int main() {
             break;
         case 2:
             rect_area = sides.at(0).length*sides.at(1).length;
+            break;
         default:
             rect_area = -1.0;
     }
 
-    std::cout << rect_area << sides.size() << std::endl;
-
-    // //  создаём всевозможные отрезки из полученных точек без дублирования
-    // //  одновременно ищем самый длинный отрезок
-    // std::vector<Line> lines;
-    // double max_line_length = 0.0;
-    // for (const Point& start_point : points) {
-    //     for (const Point& end_point : points) {
-    //         if (start_point != end_point) {
-    //             bool is_doubling = false;
-    //             for (const Line& line : lines) {
-    //                 if (line.points[0] == end_point && line.points[1] == start_point) {
-    //                     is_doubling = true;
-    //                     break;
-    //                 }
-    //             }
-    //             if (not is_doubling) {
-    //                 lines.emplace_back(start_point, end_point);
-    //                 if (lines.back().length > max_line_length) {
-    //                     max_line_length = lines.back().length;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    // //  самыми длинными должны быть две равные диагонали
-    // std::vector<uint8_t> max_lines;
-    // for (uint8_t i = 0; i < lines.size(); i++) {
-    //     if (lines.at(i).length == max_line_length) {
-    //         max_lines.push_back(i);
-    //     }
-    // }
-
-    // //  если самых длинных отрезков не 2 - это не прямоугольник
-    // if (max_lines.size() != 2) {
-    //     std::cout << "Введены координаты не прямоугольника!" << std::endl;
-    //     return 0;
-    // }
-
-    // // удаляем все самые длинные отрезки из вектора
-    // for (uint8_t i = max_lines.size()-1; i > 0; i--) {
-    //     lines.erase(lines.begin() + max_lines.at(i));
-    // }
-
-    // double rect_area = 0.0;
-    // bool wrong_coords = false;
-    // switch (lines.size()) {
-    // /*  в случае наличия лишь одной стороны считается, что остальные три равны первой ->
-    //     введены координаты квадрата*/
-    // case 1:
-    //     rect_area = pow(lines.at(0).length, 2.0);
-    //     break;
-    // /*  в случае наличия двух -> остальные две равны первым двум, введены координаты
-    //     прямоугольника */
-    // case 2:
-    //     rect_area = lines.at(0).length * lines.at(1).length;
-    //     break;
-    // default:
-    //     std::cout << "Введены координаты не прямоугольника!\n";
-    //     wrong_coords = true;
-    //     break;
-    // }
-    //
-    // if (not wrong_coords) {
-    //     std::cout << "Площадь прямоугольника равна " << rect_area << ".\n";
-    // }
+    std::cout << "Площадь прямоугольника: " << rect_area << std::endl;
     return 0;
 }
