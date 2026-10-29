@@ -14,7 +14,7 @@ int main() {
 
     if (x1 < x2) {
         if (dx <= 0) {
-            std::cout << "dx <= 0, а x1 < x2!" << std::endl;
+            std::cout << "dx ≤ 0, а x1 < x2!" << std::endl;
             return 0;
         }
         if (x2-x1 / dx - round(x2-x1 / dx) > 0.000001) {
@@ -23,7 +23,7 @@ int main() {
         }
     } else if (x1 > x2) {
         if (dx >= 0) {
-            std::cout << "dx >= 0, а x1 > 2!" << std::endl;
+            std::cout << "dx ≥ 0, а x1 > 2!" << std::endl;
             return 0;
         }
         if (x1-x2 / dx - round((x1-x2) / dx) > 0.000001) {
@@ -32,7 +32,7 @@ int main() {
         }
     } else {
         if (dx != 0.0) {
-            std::cout << "dx != 0, а x1 = x2!" << std::endl;
+            std::cout << "dx ≠ 0, а x1 = x2!" << std::endl;
             return 0;
         }
     }
@@ -41,11 +41,16 @@ int main() {
     std::cout << "|      x|           f(x)|\n";
     std::cout << "-------------------------\n";
     while (x1 <= x2) {
-        std::cout << "|" << std::setw(7) << x1 << "|"\
-            << std::setw(15) << 1.9*x1*x1 - 1.7/(x1*x1 - 9.0) + std::cos(x1) << "|\n";;
+        std::cout << "|" << std::setw(7) << x1 << "|";
+        // ОДЗ - если (x^2 - 9 = 0) с учетом расхождения в double - f(x) не определена!
+        if (abs(x1*x1 - 9.0) - 0.0 >= 0.000001) {
+            std::cout << std::setw(15) << 1.9*x1*x1 - 1.7/(x1*x1 - 9.0) + std::cos(x1) << "|\n";;
+        } else {
+            std::cout << std::setw(15) << "f не определена" << "|\n";
+        }
         x1 += dx;
     }
-    std::cout << "_________________________\n";
+    std::cout << "_________________________" << std::endl;
 
     return 0;
 }
