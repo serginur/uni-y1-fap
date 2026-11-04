@@ -65,4 +65,5 @@ int main() {
         else std::cout << "элементы кратные 9 отсутствуют";
         std::cout << std::endl;
     }
+    return 0;
 }
