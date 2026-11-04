@@ -12,24 +12,20 @@
 void create_array(const uint16_t& n, const uint8_t& k, int16_t* array) {
     std::random_device rd;
     std::srand(rd());
+
     const uint16_t min = k;
     const uint16_t max = k*3;
     for (uint16_t i = 0; i < n; i++) {
         array[i] = static_cast<int16_t>(std::rand()/(1.0*RAND_MAX) * (max-min) + min);
-        if (std::rand() % 2 == 0) {
-            array[i] *= -1;
-        }
+        if (std::rand() % 2 == 0) array[i] *= -1;
     }
 }
 
 double print_arithmetic_mean_of_multiples_of_nine(const uint16_t m, const int16_t* array) {
     int64_t sum = 0;
     uint16_t n = 0;
-    for (uint16_t i = 0; i < m; i++) {
-        if (array[i] % 9 == 0) {
-            sum += array[i]; n++;
-        }
-    }
+    for (uint16_t i = 0; i < m; i++) if (array[i] % 9 == 0) {sum += array[i]; n++;}
+
     if (n == 0) return 0.0;
     return static_cast<double>(sum)/n;
 }
