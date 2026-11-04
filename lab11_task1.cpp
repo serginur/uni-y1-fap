@@ -10,6 +10,10 @@
 #include <cmath>
 #include <iomanip>
 
+double func(const double& x) {
+    return 0.7f*(x*x*x) - 7*x - 8;
+}
+
 void input_a_b(double &a, double &b) {
     while (true) {
         std::cout << "Введите 'a': ";
@@ -26,9 +30,10 @@ void input_a_b(double &a, double &b) {
             std::cout << "Длина интервала [a, b] должна быть ≤1!\n";
             continue;
         }
-        const double f_a = 0.7f*(a*a*a) - 7*a - 8;
-        const double f_b = 0.7f*(b*b*b) - 7*b - 8;
-        if (f_a < 0 && f_b < 0 || f_a > 0 && f_b > 0) {
+        const double f_a = func(a);
+        const double f_b = func(b);
+        // только если оба отрицательны или положительны и ни один не равен нулю
+        if (std::signbit(f_a) == std::signbit(f_b) && f_a != 0.0 && f_b != 0.0) {
             std::cout << "На данном промежутке нет корней!\n";
             continue;
         }
@@ -58,7 +63,7 @@ int main () {
     std::cout << std::fixed << std::setprecision(6);
     while (true) {
         x = (b+a) / 2;
-        f = 0.7f*(x*x*x) - 7*x - 8;
+        f = func(x);
 
         int x_len = get_length_of_number(x)/2;
         int f_len = get_length_of_number(f)/2;
@@ -69,7 +74,7 @@ int main () {
             break;
         }
 
-        const double f_a = 0.7f*(a*a*a) - 7*a - 8;
+        const double f_a = func(a);
         if (f < 0) {
             if (f_a < 0) a = x;
             else b = x;
