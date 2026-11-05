@@ -22,28 +22,6 @@ void gen_array(unsigned char* array, const size_t& length) {
     array[max_len] = '\0';
 }
 
-void repr(const char* string, const size_t length) {
-    std::cout << "b'";
-    for (size_t i = 0; i < length; i++) {
-        const auto ch = static_cast<unsigned char>(string[i]);
-        switch (ch) {
-            case '\0':
-                std::cout << "\\0"; break;
-            case '\n':
-                std::cout << "\\n"; break;
-            case '\r':
-                std::cout << "\\r"; break;
-            case '\t':
-                std::cout << "\\t"; break;
-            default:
-                if (std::isprint(ch)) std::cout << ch;
-                else std::cout << "\\x" << std::hex << static_cast<int>(ch);
-        }
-    }
-    std::cout << "'\n";
-    std::cout.flush();
-}
-
 int main() {
     uint16_t n;
     constexpr uint16_t max_ch = 51;
