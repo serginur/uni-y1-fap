@@ -187,7 +187,7 @@ inline char input_symbol(const std::string& input_prompt) {
     return tokens.at(0).at(0);
 }
 
-void repr(const char* string, const size_t length) {
+inline void repr(const char* string, const size_t length) {
     std::cout << "b'";
     for (size_t i = 0; i < length; i++) {
         const auto ch = static_cast<unsigned char>(string[i]);
