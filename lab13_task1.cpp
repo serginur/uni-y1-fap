@@ -40,12 +40,10 @@ int main() {
         }
     }
 
-    uint16_t printed = 0;
     for (uint16_t i = 0; i < n; i++) {
         if (check_for_less_than_two_mathes(arrays[i], max_ch)) {
             std::cout << arrays[i] << "\n";
-            printed++;
+        }
     }
-    std::cout << printed << " строк имеют не более двух цифр из набора [4,5,7]" << std::endl;
     return 0;
 }
