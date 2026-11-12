@@ -5,7 +5,7 @@
 #include <iostream>
 #include <random>
 
-bool check_for_less_than_two_mathes(const unsigned char* array, const size_t& length) {
+bool check_for_less_than_two_matches(const unsigned char* array, const size_t& length) {
     uint16_t amount = 0;
     for (uint16_t i = 0; i < length; i++) {
         if (array[i] == '4' || array[i] == '5' || array[i] == '7') amount++;
@@ -24,13 +24,13 @@ void gen_array(unsigned char* array, const size_t& length) {
 
 int main() {
     uint16_t n;
-    constexpr uint16_t max_ch = 51;
+    constexpr uint16_t max_str_len = 51;
     do {
         std::cout << "Введите количество строк n (n ≤ 12): ";
         std::cin >> n;
     } while (n < 1 || n > 12);
 
-    unsigned char arrays[n][max_ch]; // 51 элемент, 50 для символов, 51-й = \0
+    unsigned char arrays[n][max_str_len]; // 51 элемент, 50 для символов, 51-й = \0
     for (uint16_t i = 0; i < n; i++) {
         std::cout << "Введите " << i+1 << "-ю строку (≤50 символов):\n";
         std::cin >> arrays[i];
@@ -41,7 +41,7 @@ int main() {
     }
 
     for (uint16_t i = 0; i < n; i++) {
-        if (check_for_less_than_two_mathes(arrays[i], max_ch)) {
+        if (check_for_less_than_two_matches(arrays[i], max_str_len)) {
             std::cout << arrays[i] << "\n";
         }
     }

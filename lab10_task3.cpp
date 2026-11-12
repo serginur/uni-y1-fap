@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-void F(int N, int &First, int &Last) {
+void F(const int& N, int &First, int &Last) {
     uint8_t len_of_N = 0;
     int temp = N;
     while (temp > 0) {

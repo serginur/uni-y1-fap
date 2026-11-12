@@ -13,8 +13,8 @@ void create_array(const uint16_t& n, const uint16_t& p, double* array) {
     std::random_device rd;
     std::srand(rd());
 
-    double min = 0.5*p;
-    double max = 3.5*p;
+    const double min = 0.5*p;
+    const double max = 3.5*p;
     for (uint16_t i = 0; i < n; i++) {
         array[i] = std::rand()/(1.0*RAND_MAX) * (max-min) + min;
         if (std::rand() % 2 == 0) array[i] *= -1;
@@ -55,7 +55,7 @@ int main() {
         else std::cout << '}' << std::endl;
     }
 
-    double mean = get_specific_arithmetic_mean(n, array);
+    const double mean = get_specific_arithmetic_mean(n, array);
     std::cout << "Среднее арифметическое элементов, значения которых больше удвоенного"
                  " минимального: ";
     if (mean != 0.0) std::cout << mean;

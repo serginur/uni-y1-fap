@@ -41,7 +41,7 @@ void input_a_b(double &a, double &b) {
     }
 }
 
-int get_length_of_number(double num) {
+int get_length_of_number(const double& num) {
     int len = 6;
     if (num < 0) len++;
     int temp = static_cast<int>(num);
@@ -65,8 +65,8 @@ int main () {
         x = (b+a) / 2;
         f = func(x);
 
-        int x_len = get_length_of_number(x)/2;
-        int f_len = get_length_of_number(f)/2;
+        const int x_len = get_length_of_number(x)/2;
+        const int f_len = get_length_of_number(f)/2;
 
         std::cout << "┃" << std::setw(8+x_len) << x << std::setw(8-x_len) <<
           "┃" << std::setw(8+f_len) << f << std::setw(8-f_len) << "┃" << std::endl;
