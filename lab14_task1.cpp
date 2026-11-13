@@ -6,8 +6,10 @@
 В программе вывести на экран три сформированные матрицы и имя (имена) матриц(ы) с четным
 количеством отрицательных элементов в нечетных столбцах*/
 
+#include <iomanip>
 #include <iostream>
 #include <random>
+#include "input.h"
 
 constexpr uint32_t max_m = 5;
 constexpr uint32_t max_n = 6;
@@ -22,13 +24,29 @@ void gen_array(double array[max_m][max_n], const int& m, const int& n, const dou
         array[i][j] = (gen()/(gen.max()*1.0))*(max-min)+min;
 }
 
-void print_array(double array[max_m][max_n], const int& m, const int& n) {
+void print_array(double array[max_m][max_n], const int& m, const int& n, const char& name) {
+    std::cout.precision(5);
+    std::cout << std::fixed;
+    std::cout << "\n    ┏";
+    for (uint32_t i = 0; i < n; i++) {
+        std::cout << "━━━━━━━━";
+        if (i != n-1) std::cout << "┳"; else std::cout << "┓\n";
+    }
     for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++)
-            std::cout << array[i][j] << " ";
+        if (i == m/2) std::cout << name << " = ";
+        else std::cout << "    ";
+        std::cout << "┃";
+        for (int j = 0; j < n; j++) {
+            if (array[i][j] > 0) std::cout << ' ';
+            std::cout << array[i][j] << "┃";
+        }
         std::cout << '\n';
     }
-    std::cout << std::endl;
+    std::cout << "    ┗";
+    for (uint32_t i = 0; i < n; i++) {
+        std::cout << "━━━━━━━━";
+        if (i != n-1) std::cout << "┻"; else std::cout << "┛\n";
+    }
 }
 
 uint16_t amount_of_negatives_in_odd_columns(double array[max_m][max_n], const int& m, const int& n) {
@@ -42,25 +60,40 @@ int main() {
     do {
         std::cout << "Введите m (2 ≤ m ≤ 5): ";
         std::cin >> m;
-    } while (m < 2 || m > 5);
+        if (m < 2 || m > 5) {
+            std::cout << "Ошибка!!! Число должно быть больше равно двух и меньше равно пяти!\n";
+            continue;
+        }
+        break;
+    } while (true);
     do {
         std::cout << "Введите n (2 ≤ n ≤ 6): ";
         std::cin >> n;
-    } while (n < 2 || n > 6);
+        if (n < 2 || n > 6) {
+            std::cout << "Ошибка!!! Число должно быть больше равно двух и меньше равно шести!\n";
+            continue;
+        }
+        break;
+    } while (true);
 
     double k;
     do {
         std::cout << "Введите k (1.5 ≤ k ≤ 4.5): ";
         std::cin >> k;
-    } while (k < 1.5 || k > 4.5);
+        if (k < 1.5 || k > 4.5) {
+            std::cout << "Ошибка!!! Число должно быть больше равно 1.5 и меньше равно 4.5!\n";
+            continue;
+        }
+        break;
+    } while (true);
 
     double A[max_m][max_n], B[max_m][max_n], C[max_m][max_n];
     gen_array(A, m, n, k);
     gen_array(B, m, n, k);
     gen_array(C, m, n, k);
-    print_array(A, m, n);
-    print_array(B, m, n);
-    print_array(C, m, n);
+    print_array(A, m, n, 'A');
+    print_array(B, m, n, 'B');
+    print_array(C, m, n, 'C');
 
     const bool is_even[3] = {
         amount_of_negatives_in_odd_columns(A, m, n)%2 == 0,

@@ -35,11 +35,19 @@ int main() {
     do {
         std::cout << "Введите m (m ≤ 7): ";
         std::cin >> m;
-    } while (m > 7 || m < 1);
+        if (m > 7 || m < 1) {
+            std::cout << "Ошибка!!! Число должно быть меньше равно 7!\n"; continue;
+        }
+        break;
+    } while (true);
     do {
         std::cout << "Введите k (3 < k < 9): ";
         std::cin >> k;
-    } while (k <= 3 || k >= 9);
+        if (k <= 3 || k >= 9) {
+            std::cout << "Ошибка!!! Число должно быть больше 3 и меньше 9!\n"; continue;
+        }
+        break;
+    } while (true);
 
     int16_t arrays[4][m];
     for (uint16_t i = 0; i < 4; i++) {

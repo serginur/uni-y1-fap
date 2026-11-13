@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <random>
 
-void create_array(const uint16_t& n, const uint16_t& p, double* array) {
+void create_array(const uint16_t& n, const double& p, double* array) {
     std::random_device rd;
     std::srand(rd());
 
@@ -21,7 +21,7 @@ void create_array(const uint16_t& n, const uint16_t& p, double* array) {
     }
 }
 
-double get_specific_arithmetic_mean(const uint16_t& n, double* array) {
+double get_specific_arithmetic_mean(const uint16_t& n, const double* array) {
     double min = array[0];
     for (uint16_t i = 1; i < n; i++) if (array[i] < min) min = array[i];
     min *= 2.0;
@@ -35,15 +35,24 @@ double get_specific_arithmetic_mean(const uint16_t& n, double* array) {
 }
 
 int main() {
-    uint16_t n, p;
+    uint16_t n;
+    double p;
     do {
         std::cout << "Введите n (n ≤ 10): ";
         std::cin >> n;
-    } while (n > 10 || n < 1);
+        if (n > 10 || n < 1) {
+            std::cout << "Ошибка!!! Число должно быть меньше равно десяти!\n"; continue;
+        }
+        break;
+    } while (true);
     do {
         std::cout << "Введите p (p ≥ 2): ";
         std::cin >> p;
-    } while (p < 2);
+        if (p < 2) {
+            std::cout << "Ошибка!!! Число должно быть больше равно двух!\n"; continue;
+        }
+        break;
+    } while (true);
 
     double array[n];
     create_array(n, p, array);

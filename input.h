@@ -208,3 +208,13 @@ inline void repr(const char* string, const size_t length) {
     std::cout << "'\n";
     std::cout.flush();
 }
+
+inline uint16_t get_length_of_number(const double& num, const uint16_t& precision) {
+    uint16_t len = precision;
+    if (num < 0) len++;
+    int temp = static_cast<int>(num);
+    while (temp > 0) {
+        temp /= 10; len++;
+    }
+    return len;
+}

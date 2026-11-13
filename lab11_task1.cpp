@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+#include "input.h"
 
 double func(const double& x) {
     return 0.7f*(x*x*x) - 7*x - 8;
@@ -23,32 +24,15 @@ void input_a_b(double &a, double &b) {
         std::cout.flush();
 
         if (a >= b) {
-            std::cout << "'a' должно быть меньше 'b'!\n";
+            std::cout << "Ошибка!!! 'a' должно быть меньше 'b'!\n";
             continue;
         }
         if (b - a > 1) {
-            std::cout << "Длина интервала [a, b] должна быть ≤1!\n";
-            continue;
-        }
-        const double f_a = func(a);
-        const double f_b = func(b);
-        // только если оба отрицательны или положительны и ни один не равен нулю
-        if (std::signbit(f_a) == std::signbit(f_b) && f_a != 0.0 && f_b != 0.0) {
-            std::cout << "На данном промежутке нет корней!\n";
+            std::cout << "Ошибка!!! Длина интервала [a, b] должна быть ≤1!\n";
             continue;
         }
         break;
     }
-}
-
-int get_length_of_number(const double& num) {
-    int len = 6;
-    if (num < 0) len++;
-    int temp = static_cast<int>(num);
-    while (temp > 0) {
-        temp /= 10; len++;
-    }
-    return len;
 }
 
 int main () {
@@ -65,8 +49,8 @@ int main () {
         x = (b+a) / 2;
         f = func(x);
 
-        const int x_len = get_length_of_number(x)/2;
-        const int f_len = get_length_of_number(f)/2;
+        const int x_len = get_length_of_number(x, 6)/2;
+        const int f_len = get_length_of_number(f, 6)/2;
 
         std::cout << "┃" << std::setw(8+x_len) << x << std::setw(8-x_len) <<
           "┃" << std::setw(8+f_len) << f << std::setw(8-f_len) << "┃" << std::endl;

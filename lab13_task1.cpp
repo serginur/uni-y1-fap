@@ -28,9 +28,14 @@ int main() {
     do {
         std::cout << "Введите количество строк n (n ≤ 12): ";
         std::cin >> n;
+        if (n > 12) std::cout << "Ошибка!!! Введите число, меньше равно двенадцати!\n";
     } while (n < 1 || n > 12);
 
     unsigned char arrays[n][max_str_len]; // 51 элемент, 50 для символов, 51-й = \0
+    // for (uint16_t i = 0; i < n; i++) {
+    //     gen_array(arrays[i], max_str_len);
+    //     std::cout << arrays[i] << '\n';
+    // }
     for (uint16_t i = 0; i < n; i++) {
         std::cout << "Введите " << i+1 << "-ю строку (≤50 символов):\n";
         std::cin >> arrays[i];
@@ -40,10 +45,14 @@ int main() {
         }
     }
 
+    std::cout << "Строки, в которых содержится не более двух цифр из набора 4 5 7:\n";
+    bool is_there_one = false;
     for (uint16_t i = 0; i < n; i++) {
         if (check_for_less_than_two_matches(arrays[i], max_str_len)) {
-            std::cout << arrays[i] << "\n";
+            std::cout << arrays[i] << '\n'; if (!is_there_one) is_there_one = true;
         }
     }
+    if (!is_there_one) std::cout << "такие строки отсутствуют!\n";
+    std::cout.flush();
     return 0;
 }
