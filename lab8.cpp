@@ -30,53 +30,49 @@ double newton_leibniz(const double& a, const double& b) {
     return pre_func(b) - pre_func(a);
 }
 
-double h(const double& a, const double& b, const uint16_t& n) {
-    return (b-a)/n;
+double get_h(const double& a, const double& b, const uint16_t& n) {
+        return (b-a)/n;
 }
 
-double integral_left(const double& h, const double& a, const uint16_t& n) {
-    double x = a;
+double integral_left(const double *func_values, const uint16_t& max_k, const double& h) {
     double sum = 0.0;
-    for (uint16_t k = 0; k < n; k++) {
-        x += k*h;
-        sum += func(x);
+    for (uint16_t k = 0; k <= max_k-1; k++) {
+        sum += func_values[k];
     }
     return h*sum;
 }
 
-double integral_right(const double& h, const double& a, const uint16_t& n) {
-    double x = a;
+double integral_right(const double *func_values, const uint16_t& max_k, const double& h) {
     double sum = 0.0;
-    for (uint16_t k = 1; k <= n; k++) {
-        x += k*h;
-        sum += func(x);
+    for (uint16_t k = 1; k <= max_k; k++) {
+        sum += func_values[k];
     }
     return h*sum;
 }
 
-double integral_trapeze(const double& h, const double& a, const uint16_t& n) {
-    double x = a;
-    double sum = (func(x)+func(x + n*h)/2.0);
-    for (uint16_t k = 1; k <= n; k++) {
-        x += k*h;
-        sum += func(x);
+double integral_trapeze(const double *func_values, const uint16_t& max_k, const double& h) {
+    double sum = (func_values[0]+func_values[max_k])/2.0;
+    for (uint16_t k = 1; k <= max_k-1; k++) {
+        sum += func_values[k];
     }
     return h*sum;
 }
 
-double integral_simpson(const double& h, const double& a, const uint16_t& n) {
-    double x = a;
-    double sum = func(x) + func(x + n*h);
+double integral_simpson(const double *func_values, const uint16_t& max_k, const double& h) {
+    double sum = func_values[0] + func_values[max_k];
+
     double odds_sum = 0.0;
-    for (uint16_t k = 1; k <= n/2; k += 2) {
-        odds_sum += func(x + k*h);
+    for (uint16_t k = 1; k <= max_k - 1; k += 2) {
+        odds_sum += func_values[k];
     }
     sum += 4.0*odds_sum;
+
     double evens_sum = 0.0;
-    for (uint16_t k = 2; k <= n/2 - 1; k += 2) {
-        evens_sum += func(x + k*h);
+    for (uint16_t k = 2; k <= max_k - 2; k += 2) {
+        evens_sum += func_values[k];
     }
     sum += 2.0*evens_sum;
+
     return h/3.0*sum;
 }
 
@@ -86,41 +82,54 @@ int main() {
         std::cout << "Введите a и b в пределах [0; π/3]: ";
         std::cin >> a >> b;
         if (a < min_a || b > max_b) {
-            std::cout << "Ошибка! a и b не должны быть меньше 0 и больше π/3!\n";
+            std::cout << "Ошибка! a и b не должны быть меньше 0 и больше π/3!\n"; continue;
         }
         if (a > b) {
-            std::cout << "Ошибка! a должно быть меньше b!\n";
+            std::cout << "Ошибка! a должно быть меньше b!\n"; continue;
         }
-    } while ((a < min_a || b > max_b) && a > b);
+        break;
+    } while (true);
     uint16_t k;
     std::cout << "Введите k: ";
-    std::cin >> k;
+    do {
+        std::cin >> k;
+        if (k%2 != 0) {
+            std::cout << "Ошибка! В связи с использованием формулы Симпсона k должно быть чётным!\n";
+            continue;
+        }
+        break;
+    } while (true);
     std::cout << std::endl;
-
-    uint16_t n1 = k;
-    uint16_t n2 = k*10;
 
     std::cout << std::fixed;
     std::cout.precision(4);
     std::cout << "Точное значение интеграла: " << newton_leibniz(a, b) << '\n';
 
+    const double h1 = get_h(a, b, k), h2 = get_h(a, b, k*10);
+    const uint16_t max_k1 = k, max_k2 = k*10;
+    double func_values1[k + 1], func_values2[k*10 + 1];
+    for (uint16_t i = 0; i <= max_k2; i++) {
+        if (i <= k) func_values1[i] = func(a + i*h1);
+        func_values2[i] = func(a + i*h2);
+    }
+
     std::cout << "Значение интеграла по формуле левых прямоугольников для n = k: "
-    << integral_left(h(a, b, k), a, k) << '\n'
+    << integral_left(&func_values1[0], max_k1, h1) << '\n'
     << "Значение интеграла по формуле левых прямоугольников для n = 10k: "
-    << integral_left(h(a, b, k*10), a, k*10) << std::endl;
+    << integral_left(&func_values2[0], max_k2, h2) << std::endl;
 
     std::cout << "Значение интеграла по формуле правых прямоугольников для n = k: "
-    << integral_right(h(a, b, k), a, k) << '\n'
+    << integral_right(&func_values1[0], max_k1, h1) << '\n'
     << "Значение интеграла по формуле правых прямоугольников для n = 10k: "
-    << integral_right(h(a, b, k*10), a, k*10) << std::endl;
+    << integral_right(&func_values2[0], max_k2, h2) << std::endl;
 
     std::cout << "Значение интеграла по формуле трапеций для n = k: "
-    << integral_trapeze(h(a, b, k), a, k) << '\n'
+    << integral_trapeze(&func_values1[0], max_k1, h1) << '\n'
     << "Значение интеграла по формуле трапеций для n = 10k: "
-    << integral_trapeze(h(a, b, k*10), a, k*10) << std::endl;
+    << integral_trapeze(&func_values2[0], max_k2, h2) << std::endl;
 
     std::cout << "Значение интеграла по формуле Симпсона для n = k: "
-    << integral_simpson(h(a, b, k), a, k) << '\n'
+    << integral_simpson(&func_values1[0], max_k1, h1) << '\n'
     << "Значение интеграла по формуле Симпсона для n = 10k: "
-    << integral_simpson(h(a, b, k*10), a, k*10) << std::endl;
+    << integral_simpson(&func_values2[0], max_k2, h2) << std::endl;
 }
