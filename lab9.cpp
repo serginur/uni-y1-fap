@@ -25,51 +25,51 @@ double get_h(const double& a, const double& b, const uint16_t& n) {
         return (b-a)/n;
 }
 
-double integral(const double *func_values, const uint16_t& max_k, const double& h, const bool& is_right_rect) {
+double integral(const double *func_values, const uint16_t& n, const double& h, const bool& is_right_rect) {
     // Расчет по формулам левых и правых прямоугольников
     double sum = 0.0;
-    for (uint16_t k = is_right_rect; k <= max_k-1 + is_right_rect; k++) {
+    for (uint16_t k = is_right_rect; k <= n-1 + is_right_rect; k++) {
         sum += func_values[k];
     }
     return h*sum;
 }
 
-double integral(const double *func_values, const uint16_t& max_k, const double& h) {
+double integral(const double *func_values, const uint16_t& n, const double& h) {
     // Расчет по формуле трапеций
-    double sum = (func_values[0]+func_values[max_k])/2.0;
-    for (uint16_t k = 1; k <= max_k-1; k++) {
+    double sum = (func_values[0]+func_values[n])/2.0;
+    for (uint16_t k = 1; k <= n-1; k++) {
         sum += func_values[k];
     }
     return h*sum;
 }
 
-double integral(const double *func_values, const uint16_t& max_k, const double& h, const double& a, const double& b) {
+double integral(const double *func_values, const uint16_t& n, const double& h, const double& a, const double& b) {
     // Расчет по формуле Симпсона
-    if (max_k != 2) {
-        double sum = func_values[0] + func_values[max_k];
+    if (n != 2) {
+        double sum = func_values[0] + func_values[n];
 
         double odds_sum = 0.0;
-        for (uint16_t k = 1; k <= max_k - 1; k += 2) {
+        for (uint16_t k = 1; k <= n - 1; k += 2) {
             odds_sum += func_values[k];
         }
         sum += 4.0*odds_sum;
 
         double evens_sum = 0.0;
-        for (uint16_t k = 2; k <= max_k - 2; k += 2) {
+        for (uint16_t k = 2; k <= n - 2; k += 2) {
             evens_sum += func_values[k];
         }
         sum += 2.0*evens_sum;
 
         return h/3.0*sum;
     }
-    // в случае max_k == 2 формула упрощается
+    // в случае n == 2 формула упрощается
     return (b-a)/6.0*(func(a) + 4*func((a+b)/2) + func(b));
 }
 
 int main() {
     double a, b;
     do {
-        std::cout << "Введите a и b в пределах [0; π/3]: ";
+        std::cout << "Введите a и b в пределах [0; π/3] (a < b): ";
         std::cin >> a >> b;
         if (a < min_a || b > max_b) {
             std::cout << "Ошибка! a и b не должны быть меньше 0 и больше π/3!\n"; continue;
@@ -80,12 +80,15 @@ int main() {
         break;
     } while (true);
     uint16_t k;
-    std::cout << "Введите k: ";
+    std::cout << "Введите k (k ≥ 1): ";
     do {
         std::cin >> k;
         if (k%2 != 0) {
             std::cout << "Ошибка! В связи с использованием формулы Симпсона k должно быть чётным!\n";
             continue;
+        }
+        if (k < 1) {
+            std::cout << "Ошибка! k должно быть больше нуля!\n"; continue;
         }
         break;
     } while (true);
